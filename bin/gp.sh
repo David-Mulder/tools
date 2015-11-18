@@ -20,32 +20,22 @@ branch=${3:-"master"} # default to master when branch isn't specified
 
 # make folder (same as input, no checking!)
 mkdir $repo
-git clone git@github.com:$org/$repo.git --single-branch
+#git clone git@github.com:$org/$repo.git --single-branch
 
 # switch to gh-pages branch
 pushd $repo >/dev/null
-git checkout --orphan gh-pages
-
-# remove all content
-git rm -rf -q .
+git checkout gh-pages
 
 # use bower to install runtime deployment
 bower cache clean $repo # ensure we're getting the latest from the desired branch.
-git show ${branch}:bower.json > bower.json
-echo "{
-  \"directory\": \"components\"
-}
-" > .bowerrc
+
 bower install
 bower install --save PolymerElements/paper-elements
 bower install --save PolymerElements/iron-elements
 bower install --save $org/$repo#$branch
-git checkout ${branch} -- demo
-rm -rf components/$repo/demo
-mv demo components/$repo/
 
 # redirect by default to the component folder
-echo "<META http-equiv="refresh" content=\"0;URL=components/$repo/\">" >index.html
+echo "<META http-equiv="refresh" content=\"0;URL=bower_components/$repo/\">" >index.html
 
 # send it all to github
 git add -A .
