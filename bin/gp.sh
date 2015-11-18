@@ -20,16 +20,13 @@ branch=${3:-"master"} # default to master when branch isn't specified
 
 # make folder (same as input, no checking!)
 mkdir $repo
-git clone git@github.com:$org/$repo.git --single-branch
-
-# switch to gh-pages branch
 pushd $repo >/dev/null
-git checkout gh-pages
-
-# use bower to install runtime deployment
-bower cache clean $repo # ensure we're getting the latest from the desired branch.
-
-bower install
+git init
+git checkout -b xx-pages
+echo "{
+  \"name\": \"$2 documentation\"
+}
+" > bower.json
 bower install --save PolymerElements/paper-elements
 bower install --save PolymerElements/iron-elements
 bower install --save $org/$repo#$branch
@@ -40,6 +37,7 @@ echo "<META http-equiv="refresh" content=\"0;URL=bower_components/$repo/\">" >in
 # send it all to github
 git add -A .
 git commit -am 'seed gh-pages'
-git push -u origin gh-pages --force
+
+git push -u origin xx-pages
 
 popd >/dev/null
