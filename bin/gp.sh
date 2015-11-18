@@ -22,7 +22,7 @@ branch=${3:-"master"} # default to master when branch isn't specified
 mkdir $repo
 pushd $repo >/dev/null
 git init
-git checkout -b xx-pages
+git checkout --orphan -b gh-pages
 git remote add origin git@github.com:$org/$repo.git
 echo "{
   \"name\": \"$2 documentation\"
@@ -39,6 +39,6 @@ echo "<META http-equiv="refresh" content=\"0;URL=bower_components/$repo/\">" >in
 git add -A .
 git commit -am 'seed gh-pages'
 
-git push -u origin xx-pages
+git push -u origin gh-pages
 
 popd >/dev/null
