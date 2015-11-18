@@ -37,7 +37,9 @@ echo "{
 }
 " > .bowerrc
 bower install
-bower install $org/$repo#$branch
+bower install --save PolymerElements/paper-elements
+bower install --save PolymerElements/iron-elements
+bower install --save $org/$repo#$branch
 git checkout ${branch} -- demo
 rm -rf components/$repo/demo
 mv demo components/$repo/
