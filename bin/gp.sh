@@ -23,6 +23,7 @@ mkdir $repo
 pushd $repo >/dev/null
 git init
 git checkout -b xx-pages
+git remote add origin git@github.com:$org/$repo.git
 echo "{
   \"name\": \"$2 documentation\"
 }
